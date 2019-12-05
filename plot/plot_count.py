@@ -129,3 +129,29 @@ def plot_count(count_by_airports, count_by_states, count_type, text):
 
     fig.show()
 
+
+def plot_airline_history_count(df_total_delay, carrier_list):
+    fig = go.Figure()
+    for i in range(len(carrier_list)):
+        fig.add_trace(go.Scatter(
+            x=sorted(list(set(df_total_delay['year'].to_list()))),
+            y=df_total_delay[df_total_delay['OP_CARRIER'] == carrier_list[i]]['counts'].to_list(),
+            mode='lines+markers',
+            name=constants.AIRLINE_FULLNAME_MAP[carrier_list[i]],
+            line=dict(color=constants.COLORS[i]),
+            text=''
+        ), )
+    fig.update_layout(
+        autosize=False,
+        width=950,
+        height=650,
+        title_text='2009-2018 US Domestic Airlines Flights Number History',
+        xaxis=dict(
+            dtick=1,
+            title='Year (2009-2018)',
+        ),
+        yaxis=dict(
+            title='Number of Flights'
+        ),
+    )
+    fig.show()

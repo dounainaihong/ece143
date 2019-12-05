@@ -1,6 +1,7 @@
 from processing import constants
 import pandas as pd
 from processing.operations import count, aggregate, average, merge,read_csv_file
+from processing.flight import get_flight_data_by_year, get_flight_data_by_month
 
 
 def extract_us_airport(df):
@@ -210,8 +211,6 @@ def data_prepare(target, direction, dtime):
 def count_cancellation_by_airport():
     """
     This function returns the statistics for cancellation reasons and cancellation records for different airports
-    @return: None
-    @rtype: None
     """
     code_a = []
     code_b = []
@@ -249,3 +248,4 @@ def count_cancellation_by_airport():
         code_d.append(d)
         cancel_records = cancel_records.append(df_cancel.reset_index(drop=True))
     return all_records, cancel_records, code_a, code_b, code_c, code_d
+

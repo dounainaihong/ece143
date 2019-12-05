@@ -1,6 +1,14 @@
 from processing import constants
 import plotly.graph_objects as go
 
+ann_x = [2011, 2017, 2014, 2018, 2011, 2018, 2018,
+             2018, 2008, 2009, 2009, 2013, 2009, 2018,
+             2009, 2018, 2015, 2013, 2015, 2017, 2010,
+             2010, 2009,
+             ]
+ann_y = [9.7, 11.8, 1.3, 26.5, 15.7, 7.08, 20.4, 33, 26.5, 22.6, -1, 22, 22.7, 15.4, 21, 16.7, 19.5, 7.2, 7.8, 15,
+         14.3, 7.4, 10]
+
 
 def plot_delay(delay_by_airports, delay_by_states, delay_type, text):
     """
@@ -127,4 +135,55 @@ def plot_delay(delay_by_airports, delay_by_states, delay_type, text):
 
     )
 
+    fig.show()
+
+
+def plot_airline_history_delay(df_total_delay, carrier_list):
+    annotation_list = []
+    fig = go.Figure()
+    for i in range(len(carrier_list)):
+        fig.add_trace(go.Scatter(
+            x=sorted(list(set(df_total_delay['year'].to_list()))),
+            y=df_total_delay[df_total_delay['OP_CARRIER'] == carrier_list[i]]['total delay'].to_list(),
+            mode='lines+markers',
+            name=constants.AIRLINE_FULLNAME_MAP[carrier_list[i]],
+            line=dict(color=constants.COLORS[i]),
+        ), )
+        annotation_list.append(go.layout.Annotation(
+            x=ann_x[i],
+            y=ann_y[i],
+            xref="x",
+            yref="y",
+            text=constants.AIRLINE_FULLNAME_MAP[carrier_list[i]],
+            ax=20,
+            ay=-20
+        ), )
+    fig.update_layout(
+        autosize=False,
+        width=950,
+        height=650,
+        title_text='2009-2018 US Domestic Airlines Average Delay History',
+        xaxis=dict(
+            dtick=1,
+            title='Year (2009-2018)',
+        ),
+        yaxis=dict(
+            title='Average Total Delay (min)'
+        ),
+        #     annotations=annotation_list,
+    )
+    fig.show()
+
+
+def plot_delay_top10_airlines(df_total_delay, carrier_list):
+    fig = go.Figure()
+    for i in range(len(carrier_list)):
+        if carrier_list[i] in constants.AIRLINE_CODES_STILL_WORKING:
+            fig.add_trace(go.Box(
+                y=df_total_delay[df_total_delay['OP_CARRIER'] == carrier_list[i]]['total delay'].to_list(),
+                name=constants.AIRLINE_FULLNAME_MAP[carrier_list[i]]
+            ))
+    fig.update_layout(
+        title_text='10 US Domestic Airlines Average Delay Box Plot',
+    )
     fig.show()
