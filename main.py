@@ -44,6 +44,10 @@ def plot_arr_count_by_airport_and_state_yearly():
 
 
 def plot_throughpupt_by_apiports_and_state_yearly():
+    """
+    This function plots the throughput for different airports and states from 2009-2018.
+    :return:
+    """
     df_count_list, df_count_by_state_list = data_prepare(constants.TARGET_THROUGHPUT,
                                                          constants.DIRECTION_ARRIVAL,
                                                          constants.TIME_YEAR)
@@ -51,6 +55,10 @@ def plot_throughpupt_by_apiports_and_state_yearly():
 
 
 def plot_dep_delay_by_airports_and_state_yearly():
+    """
+    This function will plot the average yearly departure delay for airports and states
+    :return:
+    """
     df_dep_delay_list_by_year, df_dep_delay_by_state_list_by_year = data_prepare(constants.TARGET_DELAY,
                                                                                  constants.DIRECTION_DEPARTURE,
                                                                                  constants.TIME_YEAR)
@@ -59,6 +67,10 @@ def plot_dep_delay_by_airports_and_state_yearly():
 
 
 def plot_arr_delay_by_airports_and_state_yearly():
+    """
+    This function plots the average yearly arrival delay for airports and states
+    :return:
+    """
     df_arr_delay_list_by_year, df_arr_delay_by_state_list_by_year = data_prepare(constants.TARGET_DELAY,
                                                                                  constants.DIRECTION_ARRIVAL,
                                                                                  constants.TIME_YEAR)
@@ -67,6 +79,10 @@ def plot_arr_delay_by_airports_and_state_yearly():
 
 
 def plot_dep_delay_by_airports_and_state_monthly():
+    """
+    This function will plot the average monthly departure delay for airports and states
+    :return:
+    """
     df_dep_delay_list_by_month, df_dep_delay_by_state_list_by_month = data_prepare(constants.TARGET_DELAY,
                                                                                    constants.DIRECTION_DEPARTURE,
                                                                                    constants.TIME_MONTH)
@@ -75,6 +91,10 @@ def plot_dep_delay_by_airports_and_state_monthly():
 
 
 def plot_arr_delay_by_airports_and_state_monthly():
+    """
+    This function will plot the average monthly arrival delay for airports and states
+    :return:
+    """
     df_arr_delay_list_by_month, df_arr_delay_by_state_list_by_month = data_prepare(constants.TARGET_DELAY,
                                                                                    constants.DIRECTION_ARRIVAL,
                                                                                    constants.TIME_MONTH)
@@ -83,6 +103,12 @@ def plot_arr_delay_by_airports_and_state_monthly():
 
 
 def plot_airline_history():
+    """
+    This function calls three functions and plots three graphs.
+    It plots the history flight average delay, flight count for all airlines from 2009-2018;
+    It plots the average history delay for the 10 airlines that still work nowadays.
+    :return:
+    """
     df_total_delay = prepare_airline_delay_data()
     carrier_list = sorted(list(set(df_total_delay['OP_CARRIER'].to_list())))
     plot_delay.plot_airline_history_delay(df_total_delay, carrier_list)
@@ -91,6 +117,10 @@ def plot_airline_history():
 
 
 def plot_airline_routes():
+    """
+    This function plots the route distributions over states for all airlines.
+    :return:
+    """
     df_airport = pd.read_csv(constants.AIRPORT_DATA_PATH)
     df_us_airport = extract_us_airport(df_airport)
     df_2018 = get_flight_data_by_year(2018, ['OP_CARRIER', 'ORIGIN', 'DEST'])
@@ -123,11 +153,18 @@ def plot_airline_routes():
     fig.show()
 
 
-### plot the cancellation
 def plot_cancellation_history():
+    """
+    This function calls internal functions and plots several graphs:
+    1. plots the cancellation rate history for all airlines.
+    2. plots the reasons distribution for flight cancellations for each year from 2009-2018
+    3. plots the cancellation rate of different states over different months.
+    4. plots the dynamic cancellation rate change over months for all states in US.
+    :return:
+    """
     # plot the cancellation history trend
     cancel_airline = count_cancellation_by_airline()
-    carrier_list = constants.AIRLINE_FULLNAME_MAP.keys()
+    carrier_list = list(constants.AIRLINE_FULLNAME_MAP.keys())
     plot_cancellation.plot_cancellation_history(cancel_airline, carrier_list)
 
     # plot the cancellation reasons

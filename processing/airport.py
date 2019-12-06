@@ -176,7 +176,6 @@ def data_prepare(target, direction, dtime):
     else:
         max_iter = 12
     for i in range(max_iter):
-        print("Processing the time iteration for " + str(i))
         if dtime == constants.TIME_YEAR:
             df_flight = get_flight_data_by_year(i + constants.YEAR_LIST[0], used_cols)
         else:
@@ -222,7 +221,6 @@ def count_cancellation_by_airport():
     df_us_airport = read_csv_file(constants.CLEANED_AIRPORT_DATA_PATH)
 
     for year in constants.YEAR_LIST:
-        print("Processing the data for year: " + str(year))
         df_cur = get_flight_data_by_year(year, [])
 
         df_all = df_cur[['FL_DATE', 'ORIGIN']]

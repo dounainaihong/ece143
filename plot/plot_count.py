@@ -1,5 +1,6 @@
 from processing import constants
 import plotly.graph_objects as go
+import pandas as pd
 
 
 def plot_count(count_by_airports, count_by_states, count_type, text):
@@ -131,6 +132,17 @@ def plot_count(count_by_airports, count_by_states, count_type, text):
 
 
 def plot_airline_history_count(df_total_delay, carrier_list):
+    """
+    This function is used to plot the yearly flight count graph for different airlines from 2009-2018
+    :param df_total_delay: the input delay data for airlines
+    :type df_total_delay: pd.DataFrame
+    :param carrier_list: the input list for all of the airlines
+    :type carrier_list: list
+    :return:
+    """
+    assert isinstance(df_total_delay, pd.DataFrame)
+    assert isinstance(carrier_list, list)
+
     fig = go.Figure()
     for i in range(len(carrier_list)):
         fig.add_trace(go.Scatter(
