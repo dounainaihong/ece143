@@ -10,9 +10,25 @@ from tensorflow.keras import layers
 from keras.models import load_model
 
 class PredictModel(object):
-    
+    '''The class of machine learning model. It was implemented for initializing
+    the model, tuning model parameters, and predict the delay/cancel.
+    '''
     def __init__(self, input_size, lr=0.01, model_path=None):
-        # Initialize the deep learning model.
+        '''Initialize the deep learning model.
+        @param input_size: the length of input feature array
+        @type input_size: int
+        @param lr: learning rate of ML model
+        @type lr: floart
+        @param model_path: the dir path where stored the pretrain model
+        @type model_path: str 
+        @return: None
+        '''
+        
+        assert isinstance(input_size, int)
+        assert input_size>0
+        assert isinstance(lr, floart)
+        assert 0<lr<1
+
         self.input_size = input_size
         self.lr = lr
         if not model_path:
@@ -21,9 +37,13 @@ class PredictModel(object):
             if not os.path.exists(self.model_path):
                 os.mkdir(self.model_path)
         else:
+            assert isinstance(model_path, str)
             self.model = load_model(model_path)
         
     def InitialModel(self):
+        '''Model initialization. Make a 3 full-connected layers then sequencing them.
+        @return: None
+        '''
         model = tf.keras.Sequential([
             layers.Dense(256, activation='relu', input_shape=(self.input_size,)),
             layers.Dense(1024, activation='relu'),
@@ -36,17 +56,53 @@ class PredictModel(object):
         return model
     
     def TrainModel(self, train_set, train_label, model_id, sub_epochs=10):
+        '''Tuning model parameters. It splits the input data to 80% as training set 
+        and 20% as validation set. Then fit the prediction to 2 classes: True or False,
+        corresponding to whether the flight will delay/cancel. In each epochs, the model
+        is saved in model dir.
+        @param train_set: set of training data, observation features.
+        @type train_set: np.ndarray 
+        @param train_label: set of target labels. 
+        @type train_label: np.ndarray
+        @param model_id: the model id/trained epoches
+        @type model_id: int
+        @param sub_epochs: number of training loops for each training set.
+        @type sub_epochs: int
+        @return: None
+        '''
+        
+        assert isinstance(train_set, np.ndarray)
+        assert isinstance(train_label, np.ndarray)
+        assert isinstance(model_id, int)
+        assert model_id>=0
+        assert isinstance(sub_epochs, int)
+        assert sub_epochs>0
+        
         self.model.fit(train_set, train_label, epochs=sub_epochs,validation_split=0.2)
         model_name = self.model_path+'/model_'+str(model_id)
         self.model.save(model_name)
     
     def Predict(self, input_data):
+        '''Predict whether the flight will delay/cancel.
+        @param input_data: array of features.
+        @type input_data: np.ndarray
+        @return: prediction array
+        @rtype: np.ndarray.
+        '''
+        assert isinstance(input_data, np.ndarray)
         return self.model.predict(input_data)
 
 def EncodeAirline(airline):
-    '''Change the classes to one-hot code.'''
+    '''Change the classes to one-hot code.
+    @param airline: airline code.
+    @type airline: str
+    @return: array of one-hot key
+    @rtype: list
+    '''
     
+    assert isinstance(airline, str)
     airline_set = {'F9':0, 'B6':1, 'EV':2, 'OO':3, 'UA':4, 'AA':5, 'WN':6, 'DL':7, 'HA':8, 'AS':9}
+    assert airline in airline_set
     airline_hotkey = [0]*len(airline_set)
     if airline in airline_set:
         airline_hotkey[airline_set[airline]] += 1
@@ -54,9 +110,18 @@ def EncodeAirline(airline):
     
     
 def EncodeDelayData(df_airline, airport_info):
-    ''''Change the dataframe to array of training set.
-    Format: X: [encoded_airline, lat, longtitude, elevation_ft, month-day].
+    ''''Change the dataframe to array of training set. The format of input feature is 
+    [encoded_airline, lat, longtitude, elevation_ft, month-day].
+    
+    @param df_airline: data frame of 
+    @type airline: pd.DataFrame
+    @param df_airline: airport information 
+    @type airline: dict
+    @return: train set and label
+    @rtype: tuple of list
     '''
+    assert isinstance(df_airline, pd.DataFrame)
+    assert isinstance(airport, dict)
     
     train_set = []
     test_set = []
@@ -83,9 +148,17 @@ def EncodeDelayData(df_airline, airport_info):
     return (train_set, label_train)
     
 def EncodeCancelData(df_airline, airport_info):
-    '''Encode the cancellation data to array of training set.
-    Format X: [encoded_airline, lat, longtitude, elevation_ft, month-day] 
+    '''Change the dataframe to array of training set. The format of input feature is 
+    [encoded_airline, lat, longtitude, elevation_ft, month-day] .
+    
+    @param df_airline: data frame of 
+    @type airline: pd.DataFrame
+    @param df_airline: airport information 
+    @type airline: dict
+    @return: train set and label
+    @rtype: tuple of list
     '''
+    
     train_set = []
     test_set = []
     label_train = []
@@ -105,7 +178,6 @@ def EncodeCancelData(df_airline, airport_info):
         carrier_hotkey = EncodeAirline(carrier)
         data_row = carrier_hotkey+airport_out_info+airport_in_info+month
         if len(data_row)<16: continue
-        #print(data_row)
         train_set.append(data_row)
         y = df_airline['CANCELLED'][k]
         label_train.append(y)
@@ -114,8 +186,11 @@ def EncodeCancelData(df_airline, airport_info):
     
     
 def GetAirportInfo():
-    '''Get airport info from data.
+    '''Get airport info from data and save them into dict.
+    @return: airport information
+    @rtype: dict
     '''
+    
     df_airport = pd.read_csv('airports.csv')
     airport_info = defaultdict(list)
     airline_name = {'9E':'Endeavor Air',
@@ -155,7 +230,14 @@ def GetAirportInfo():
 
 def ModifyDelayData(data_files):
     '''Read the raw data from data_files and convert them into ml training format.
+     
+    @param data_files: data files path
+    @type data_files: list of str
+    @return: None
     '''
+ 
+    assert isinstance(data_files, list)
+    
     airport_info = GetAirportInfo()
     for file_id in range(len(data_files)):
         print('File Name:', data_files[file_id])
@@ -174,7 +256,13 @@ def ModifyDelayData(data_files):
                 
 def ModifyCancelData(data_files):
     '''Read the raw data from data_files and convert them into ml training format.
+     
+    @param data_files: data files path
+    @type data_files: list of str
+    @return: None
     '''
+    
+    assert isinstance(data_files, list)
     airport_info = GetAirportInfo()
     for file_id in range(len(data_files)):
         print('File Name:', data_files[file_id])
@@ -192,7 +280,12 @@ def ModifyCancelData(data_files):
                 csv_writer.writerow(row+[label[k]])
 
 def TrainDelayModel(model_path=None):
-    '''Train delay prediction model.
+    '''Train delay prediction model. If model_path is not None, load the pre-trained
+    model from model_path.
+    @param model_path: folder to save model 
+    @type model_path: str
+    @return: tensorflow neural network
+    @rtype: PredictModel class
     '''
     
     if model_path:
@@ -221,8 +314,14 @@ def TrainDelayModel(model_path=None):
     return delay_agent
     
 def TrainCancelModel():
-    '''Train cancel prediction model.
+    '''Train cancel prediction model. If model_path is not None, load the pre-trained
+    model from model_path.
+    @param model_path: folder to save model 
+    @type model_path: str
+    @return: tensorflow neural network
+    @rtype: PredictModel class
     '''
+    
     if model_path:
         cancel_agent = PredictModel(17, model_path=model_path)
         return cancel_agent
@@ -248,9 +347,17 @@ def TrainCancelModel():
         cancel_agent.TrainModel(train_set, label, model_id=epoch, sub_epochs=1)
 
 def TestModel(agent, mode='delay'):
-    '''Test the model.
+    '''Get the tensorflow network. Test the model with 2018 flight data.
+    
+    @param agent: prediction model 
+    @type agent: PredictModel 
+    @param mode: predict is delay or cancel 
+    @type mode: str
+    @return: accuracy of prediction
+    @rtype: float
     '''
     
+    assert mode in ['delay', 'cancel']
     test_set_path = os.path.join('./data',mode,'train_set_9.csv')
     data_set = pd.read_csv(test_set_path, header=None)
     n_data = len(data_set)
@@ -263,11 +370,11 @@ def TestModel(agent, mode='delay'):
     return accuracy
     
 if __name__=='__main__':
-    root = './'
+    root = './data'
     data_airport = root+'clean_airports.csv'
     data_files = []
     for i in range(10):
-        data_files.append(root+'airline_delay_and_cancellation_data/'+str(2009+i)+'.csv')
+        data_files.append(root+'/'+str(2009+i)+'.csv')
         
     ModifyDelayData(data_files)
     ModifyCancelData(data_files)

@@ -8,10 +8,17 @@ from plotly.subplots import make_subplots
 import matplotlib as plt
 
 def StatDelayFrequency(data_files):
-    '''Read the csv file then counting delay frequency for each reason.
-    data_files: csv file names
-    Output: return tuple of percentage.
+    ''' This function is implemented for counting delay frequency for different delay reasons.
+    It reads the csv file listed in data_files, then counts delay frequency independently for delay
+    less than 500 mins or more than 500 mins. The counts will be stored in delay_sum, delay_500
+    and delay_less. 
+    @param data_files: data files path
+    @type data_files: list of str
+    @return: tuple of percentages.
+    @rtype: list of numpy array.
     '''
+    
+    assert isinstance(data_files, list)
     n_carrier_delay = 0
     n_weather_delay = 0
     n_nas_delay = 0
@@ -54,9 +61,17 @@ def StatDelayFrequency(data_files):
     return [percent_all, percent_500, percent_less]
         
 def PlotPie(percent_500, percent_less):
-    '''Plot the pie by plotly.
-    Input: percent 
+    '''The PlotPie plots the delay reasons distribution by plotly. It takes the 
+    delay reasons distribution from StatDelayFrequency(data_files).
+    @param percent_500: percentage of delay more than 500
+    @type percent_500: np.ndarray
+    @param percent_less: percentage of delay less than 500
+    @type percent_less: np.ndarray
+    @return: None
     '''
+    assert isinstance(percent_500, np.ndarray)
+    assert isinstance(percent_less, np.ndarray)
+    
     labels = ['CARRIER','WEATHER','NAS','SECURITY','LATE_AIRCRAFT']
     fig = make_subplots(rows=1, cols=2,specs=[[{"type": "domain"}, {"type": "domain"}]],)
 
@@ -75,18 +90,21 @@ def PlotPie(percent_500, percent_less):
     fig.show()
 
 def PlotPieDemon():
-    '''Plot the demon of delay reason distribution.
+    '''It loads the flight data then plot the demon of delay reason distribution.
+    @return: None
     '''
-    data_files = ['./data/2018.csv']
+    data_files = ['./data/pie2018.csv']
     [percent_all, percent_500, percent_less] = StatDelayFrequency(data_files)
     PlotPie(percent_500, percent_less)
 
 if __name__ =='__main__':
-    root = './'
-    data_airport = root+'clean_airports.csv'
+    ''' The main section of plot delay reasons distribution. It loads all flight info
+    from csv files. Then run StatDelayFrequency to count flight delay.
+    '''
+    root = './data'
     data_files = []
     for i in range(10):
-        data_files.append(root+'airline_delay_and_cancellation_data/'+str(2009+i)+'.csv')
+        data_files.append(root+'/'+str(2009+i)+'.csv')
         
     [percent_all, percent_500, percent_less] = StatDelayFrequency(data_files)
     
