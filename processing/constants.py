@@ -66,7 +66,7 @@ MONTH_ENG_LIST = ['January','February','March','April',
                   'October','November','December']
 
 # The followings specify other constants related to the files
-ROOT = './ECE143_project_data/'
+ROOT = './data/'
 AIRPORT_DATA_PATH = ROOT+'airports.csv'
 CLEANED_AIRPORT_DATA_PATH = ROOT+'clean_airports.csv'
 US_REGION_DIVISION_DATA_PATH = ROOT + 'us_regions_division.csv'

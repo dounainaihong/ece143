@@ -90,7 +90,6 @@ def count_cancellation_by_airline():
     """
     cancel_airline = pd.DataFrame()
     for year in constants.YEAR_LIST:
-        print("Processing the data for year: " + str(year))
         df_cur = get_flight_data_by_year(year, [])
 
         df_airline = df_cur['OP_CARRIER'].value_counts().rename_axis('OP_CARRIER').reset_index(name='total_cnts')

@@ -87,7 +87,7 @@ def plot_airline_history():
     carrier_list = sorted(list(set(df_total_delay['OP_CARRIER'].to_list())))
     plot_delay.plot_airline_history_delay(df_total_delay, carrier_list)
     plot_count.plot_airline_history_count(df_total_delay, carrier_list)
-    plot_delay.plot_delay_top10_airlines()
+    plot_delay.plot_delay_top10_airlines(df_total_delay, carrier_list)
 
 
 def plot_airline_routes():
@@ -159,8 +159,6 @@ def plot_cancellation_history():
     plot_cancellation.plot_cancellation_by_state_and_month(df_cancel_stat)
 
 
-
-
-
-
+if __name__ == "__main__":
+    clean_airport_data()
 
