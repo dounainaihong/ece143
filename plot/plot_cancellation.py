@@ -6,13 +6,13 @@ import pandas as pd
 def plot_cancellation_history(cancel_airline, carrier_list):
     """
     This function is used to plot the line graph for the cancellation history in terms of different US airlines.
-    :param cancel_airline: input airline cancellation summary list from 2009-2018 for all us airlines
-    :type cancel_airline: list
+    :param cancel_airline: input airline cancellation summary for all us airlines
+    :type cancel_airline: pd.DataFrame
     :param carrier_list: input airline name list
     :type carrier_list: list
     :return:
     """
-    assert isinstance(cancel_airline, list)
+    assert isinstance(cancel_airline, pd.DataFrame)
     assert isinstance(carrier_list, list)
     for d in cancel_airline:
         isinstance(d, pd.DataFrame)
