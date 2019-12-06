@@ -1,5 +1,6 @@
 from processing import constants
 import plotly.graph_objects as go
+import pandas as pd
 
 ann_x = [2011, 2017, 2014, 2018, 2011, 2018, 2018,
              2018, 2008, 2009, 2009, 2013, 2009, 2018,
@@ -139,6 +140,17 @@ def plot_delay(delay_by_airports, delay_by_states, delay_type, text):
 
 
 def plot_airline_history_delay(df_total_delay, carrier_list):
+    """
+    This function is used to plot the yearly average delay line graph for different airlines from 2009-2018
+    :param df_total_delay: the input delay data for airlines
+    :type df_total_delay: pd.DataFrame
+    :param carrier_list: the input list for all of the airlines
+    :type carrier_list: list
+    :return:
+    """
+    assert isinstance(df_total_delay, pd.DataFrame)
+    assert isinstance(carrier_list, list)
+
     annotation_list = []
     fig = go.Figure()
     for i in range(len(carrier_list)):
@@ -176,6 +188,17 @@ def plot_airline_history_delay(df_total_delay, carrier_list):
 
 
 def plot_delay_top10_airlines(df_total_delay, carrier_list):
+    """
+    This function is used to plot the average delay over the past 10 years for 10 us airlines that are still working.
+    :param df_total_delay: the input delay data for airlines
+    :type df_total_delay: pd.DataFrame
+    :param carrier_list: the input list for all of the airlines
+    :type carrier_list: list
+    :return:
+    """
+    assert isinstance(df_total_delay, pd.DataFrame)
+    assert isinstance(carrier_list, list)
+
     fig = go.Figure()
     for i in range(len(carrier_list)):
         if carrier_list[i] in constants.AIRLINE_CODES_STILL_WORKING:

@@ -1,8 +1,24 @@
 from processing import constants
 import plotly.graph_objects as go
+import pandas as pd
 
 
 def plot_cancellation_history(cancel_airline, carrier_list):
+    """
+    This function is used to plot the line graph for the cancellation history in terms of different US airlines.
+    :param cancel_airline: input airline cancellation summary list from 2009-2018 for all us airlines
+    :type cancel_airline: list
+    :param carrier_list: input airline name list
+    :type carrier_list: list
+    :return:
+    """
+    assert isinstance(cancel_airline, list)
+    assert isinstance(carrier_list, list)
+    for d in cancel_airline:
+        isinstance(d, pd.DataFrame)
+    for s in carrier_list:
+        isinstance(s, str)
+
     fig = go.Figure()
     for i, carrier in enumerate(carrier_list):
         fig.add_trace(go.Scatter(
@@ -30,6 +46,23 @@ def plot_cancellation_history(cancel_airline, carrier_list):
 
 
 def plot_cancellation_reasons(code_a, code_b, code_c, code_d):
+    """
+    This function is used to plot the bar graph for the cancellation reasons each year from 2009-2018
+    :param code_a: yearly count of the reason a from 2009-2018
+    :type code_a: list
+    :param code_b: yearly count of the reason b from 2009-2018
+    :type code_b: list
+    :param code_c: yearly count of the reason c from 2009-2018
+    :type code_c: list
+    :param code_d: yearly count of the reason d from 2009-2018
+    :type code_d: list
+    :return: 
+    """
+    assert isinstance(code_a, list)
+    assert isinstance(code_b, list)
+    assert isinstance(code_c, list)
+    assert isinstance(code_d, list)
+
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=list(range(2009, 2019)),
@@ -64,6 +97,21 @@ def plot_cancellation_reasons(code_a, code_b, code_c, code_d):
 
 
 def plot_cancellation_heatmap_with_states(data, state_list):
+    """
+    This function is used to plot the heat map of cancellation rates in terms of different states and months.
+    :param data: the input cancellation data for different months and states
+    :type data: list
+    :param state_list: the input state list that we will follow
+    :type state_list: list
+    :return:
+    """
+    assert isinstance(data, list)
+    for i in data:
+        assert isinstance(i, list)
+    assert isinstance(state_list, list)
+    for s in state_list:
+        assert isinstance(s, str)
+
     fig = go.Figure(data=go.Heatmap(
         z=data,
         x=state_list,
@@ -95,6 +143,14 @@ def plot_cancellation_heatmap_with_states(data, state_list):
 
 
 def plot_cancellation_by_state_and_month(df_cancel_stat):
+    """
+    This function is to plot the dynamic cancellation map graph for different states in different months.
+    :param df_cancel_stat: input cancellation data frame
+    :type df_cancel_stat: pd.DataFrame
+    :return:
+    """
+    assert isinstance(df_cancel_stat, pd.DataFrame)
+
     fig = go.Figure(data=
     [
         go.Choropleth(
