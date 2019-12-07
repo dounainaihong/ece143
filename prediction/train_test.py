@@ -371,15 +371,23 @@ def TestModel(agent, mode='delay'):
     
 if __name__=='__main__':
     root = './data'
-    data_airport = root+'clean_airports.csv'
     data_files = []
     for i in range(10):
         data_files.append(root+'/'+str(2009+i)+'.csv')
-        
+
+    print('--- Modifying Data to Machine Learning Features ---')
     ModifyDelayData(data_files)
     ModifyCancelData(data_files)
-    delay_agent = TrainDelayModel() 
+    print('--- Training The Delay Model ---')
+    delay_agent = TrainDelayModel()
+    print('--- Training The Cancellation Model ---')
     cancel_agent = TrainCancelModel()
+
+    print('--- Test Delay Model ---')
     delay_accuracy = TestModel(delay_agent, mode='delay')
+    print('Your delay model accuracy is %f' %delay_accuracy)
+
+    print('--- Test Cancellation Model ---')
     cancel_accuracy = TestModel(cancel_agent, mode='cancel')
-    
+    print('Your cancellation model accuracy is %f' %cancel_accuracy)
+
