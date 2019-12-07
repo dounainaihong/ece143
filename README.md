@@ -99,3 +99,30 @@ This project aims at exploring the US flights data over the past 10 years
      ```
      note: You can run any functions in the main.py here for any visualizations you want.
  
+ ##### Build Neural Network to Predict Delay/Cancellation
+ 
+ a) Modify the raw data into prediction model features.
+    
+
+     -> location: prediction/train_test.py
+    
+     -> run command: python prediction/train_test.py modify_data
+    
+     -> description: The files reads in the data from "./data" folder and convert airline, airport location, flight time information to learning features array. The modified data will be saved in "./data/delay" for delay model and "./data/cancel" for cancel model.
+
+
+b) Train the Machine Learning Models.
+ 
+    -> location: prediction/train_test.py
+    
+    -> run command: python prediction/train_test.py train
+    
+    -> description: The files reads in the data from "./data/delay" or "./data/cancel" folders. Then it tuning the prediction model as training. The trained model will be saved into "./model/delay" or "./model/cancel" respectively.
+
+c) Test the prediction models.
+ 
+    -> location: prediction/train_test.py
+    
+    -> run command: python prediction/train_test.py test
+    
+    -> description: The files reads in the prediction model from "./model/delay" or "./model/cancel" folders. Then it predicts whether flights will delay according to the flights' information stored in "./data/delay". It is the same as cancel except the file path. The prediction accuracy will be shown once test has been done.

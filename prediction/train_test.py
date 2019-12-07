@@ -1,5 +1,6 @@
 import csv
 import os
+import sys
 from collections import defaultdict
 
 import numpy as np
@@ -18,7 +19,7 @@ class PredictModel(object):
         @param input_size: the length of input feature array
         @type input_size: int
         @param lr: learning rate of ML model
-        @type lr: floart
+        @type lr: float
         @param model_path: the dir path where stored the pretrain model
         @type model_path: str 
         @return: None
@@ -26,7 +27,7 @@ class PredictModel(object):
         
         assert isinstance(input_size, int)
         assert input_size>0
-        assert isinstance(lr, floart)
+        assert isinstance(lr, float)
         assert 0<lr<1
 
         self.input_size = input_size
@@ -370,24 +371,41 @@ def TestModel(agent, mode='delay'):
     return accuracy
     
 if __name__=='__main__':
-    root = './data'
-    data_files = []
-    for i in range(10):
-        data_files.append(root+'/'+str(2009+i)+'.csv')
 
-    print('--- Modifying Data to Machine Learning Features ---')
-    ModifyDelayData(data_files)
-    ModifyCancelData(data_files)
-    print('--- Training The Delay Model ---')
-    delay_agent = TrainDelayModel()
-    print('--- Training The Cancellation Model ---')
-    cancel_agent = TrainCancelModel()
+    if len(sys.argv)<2:
+        print('You should provide the mode!')
+    mode = sys.argv[1]
+    if mode=='modify_data':
+        root = './data'
+        data_files = []
+        for i in range(10):
+            data_files.append(root+'/'+str(2009+i)+'.csv')
+        print('--- Modifying Data to Machine Learning Features ---')
+        ModifyDelayData(data_files)
+        ModifyCancelData(data_files)
 
-    print('--- Test Delay Model ---')
-    delay_accuracy = TestModel(delay_agent, mode='delay')
-    print('Your delay model accuracy is %f' %delay_accuracy)
+    elif mode=='train':
+        print('--- Training The Delay Model ---')
+        delay_agent = TrainDelayModel()
+        print('--- Training The Cancellation Model ---')
+        cancel_agent = TrainCancelModel()
 
-    print('--- Test Cancellation Model ---')
-    cancel_accuracy = TestModel(cancel_agent, mode='cancel')
-    print('Your cancellation model accuracy is %f' %cancel_accuracy)
+    elif mode=='test':
+        print('--- Test Delay Model ---')
+        try:
+            delay_agent = TrainDelayModel('./model/delay/model_delay_99')
+        except:
+            delay_agent = TrainDelayModel()
+        delay_accuracy = TestModel(delay_agent, mode='delay')
+        print('Your delay model accuracy is %f' %delay_accuracy)
 
+        print('--- Test Cancellation Model ---')
+        try:
+            cancel_agent = TrainDelayModel('./model/cancel/model_cancel_99')
+        except:
+            cancel_agent = TrainCancelModel()
+        cancel_accuracy = TestModel(cancel_agent, mode='cancel')
+        print('Your cancellation model accuracy is %f' %cancel_accuracy)
+
+    else:
+        print('MODE ERROR')
