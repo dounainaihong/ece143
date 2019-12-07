@@ -61,8 +61,7 @@ This project aims at exploring the US flights data over the past 10 years
  provides the up-level interfaces for users to the analysis and visualizations.
  
  ##### final.ipynb
- provides the running steps and respective results in the Jupyter Notebooks. **Please click the grey circle button show on the right top of the first cell 1[]
- 
+ provides the running steps and respective results in the Jupyter Notebooks. **Please wait for several seconds and click the grey circle button shown on the right top of the first cell 1[] in the final.ipynb**. In this way, you will view our visualizations by the external viewer nbviewer.
  
  
  ### Run Locally
@@ -111,7 +110,7 @@ This project aims at exploring the US flights data over the past 10 years
       # plot the average yearly arrival delay for airports and states
       >> main.plot_arr_delay_by_airports_and_state_yearly()
      ```
-     note: You can run any functions in the main.py here for any visualizations you want.
+     note: You can run any functions in the main.py here for any visualizations you want. For some functions, it may cost some time to process the data.
  
  ##### Build Neural Network to Predict Delay/Cancellation
  
