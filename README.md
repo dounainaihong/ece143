@@ -110,7 +110,7 @@ This project aims at exploring the US flights data over the past 10 years
       # plot the average yearly arrival delay for airports and states
       >> main.plot_arr_delay_by_airports_and_state_yearly()
      ```
-     note: You can run any functions in the main.py here for any visualizations you want. For some functions, it may cost some time to process the data.
+     note: You can run any functions in the main.py here for any visualizations you want. For some functions, it may take some time to process the data.
  
  ##### Build Neural Network to Predict Delay/Cancellation
  
