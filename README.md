@@ -36,29 +36,32 @@ This project aims at exploring the US flights data over the past 10 years
       
 
  ### File Structure
- /data: 
+ ##### /data: 
  stores all of the data expect for the flights data, which we need to download to here.
  
- /model: 
+ ##### /model: 
  stores all of the machine learning models. 
  
- /model/delay:
+ ##### /model/delay:  
  stores delay model when each training epoch finishes.
  
- /model/cancel:
+ ##### /model/cancel:
  stores cancellation model when each training epoch finishes.
  
- /plot:
+ ##### /plot:
  stores all of the functions we will use to plot graphs directly
      
- / prediction
+ ##### /prediction
  stores all of the functions used for machine learning model construct, training and test.
  
- / processing:
+ ##### /processing:
  stores all of the modules we will use to process our data and do the analysis.
  
- main.py: provides the up-level interfaces for users to the analysis and visualizations.
+ ##### main.py:
+ provides the up-level interfaces for users to the analysis and visualizations.
  
+ ##### final.ipynb
+ provides the running steps and respective results in the Jupyter Notebooks. **Please click the grey circle button show on the right top of the first cell 1[]
  
  
  
@@ -69,12 +72,16 @@ This project aims at exploring the US flights data over the past 10 years
  * For the other three datasets, we already downloaded them into the ./data/ directory.
  
  ##### data clean
- For the airlines and flights data, we will clean the data in different specific logics parts.
+ For the airlines and flights data, we will clean the data in different internal use cases.
  Here we will clean the airports data by removing all of the useless and NA airports information, 
  
  ```
- # in the linux command line, run the command:
- python processing/clean.py
+ # enter the linux command line python3 and enter the python command line
+ command: python3
+
+ >> from processing.clean import clean_airport_data
+ >> clean_airport_data()
+ 
  ```
 
  ##### process & visualization

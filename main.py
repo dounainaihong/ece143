@@ -7,7 +7,7 @@ from processing.airline import prepare_airline_delay_data, get_airline_route_by_
 from processing.flight import get_flight_data_by_year
 from processing.operations import merge
 
-from plot import plot_count, plot_delay, plot_cancellation
+from plot import plot_count, plot_delay, plot_cancellation, plot_DelayReason
 
 
 def plot_dep_count_by_airport_and_state_yearly():
@@ -186,3 +186,9 @@ def plot_cancellation_history():
     plot_cancellation.plot_cancellation_by_state_and_month(df_cancel_stat)
 
 
+def plot_delay_reasons_distributions():
+    """
+    This function is used to plot the distributions for different delay reasons.
+    :return:
+    """
+    plot_DelayReason.PlotPieDemon()

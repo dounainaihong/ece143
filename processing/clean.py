@@ -11,7 +11,3 @@ def clean_airport_data():
     original_airports = pd.read_csv(constants.AIRPORT_DATA_PATH)
     cleaned_us_airports = extract_us_airport(original_airports)
     cleaned_us_airports.to_csv(constants.CLEANED_AIRPORT_DATA_PATH)
-
-
-if __name__ == "__main__":
-    clean_airport_data()
