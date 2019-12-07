@@ -10,16 +10,6 @@ from processing.operations import merge
 from plot import plot_count, plot_delay, plot_cancellation
 
 
-def clean_airport_data():
-    """
-    This function cleans the original worldwide airport data by removing the NA and outlier data. Then it stores the
-    cleaned airport data as a csv file.
-    """
-    original_airports = pd.read_csv(constants.AIRPORT_DATA_PATH)
-    cleaned_us_airports = extract_us_airport(original_airports)
-    cleaned_us_airports.to_csv(constants.CLEANED_AIRPORT_DATA_PATH)
-
-
 def plot_dep_count_by_airport_and_state_yearly():
     """
     This function plots the yearly departure flight count from 2009-2018 for different airports and states
@@ -195,7 +185,4 @@ def plot_cancellation_history():
     plot_cancellation.plot_cancellation_heatmap_with_states(data, state_list)
     plot_cancellation.plot_cancellation_by_state_and_month(df_cancel_stat)
 
-
-if __name__ == "__main__":
-    clean_airport_data()
 
