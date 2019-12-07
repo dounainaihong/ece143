@@ -191,7 +191,7 @@ def GetAirportInfo():
     @rtype: dict
     '''
     
-    df_airport = pd.read_csv('airports.csv')
+    df_airport = pd.read_csv('./data/airports.csv')
     airport_info = defaultdict(list)
     airline_name = {'9E':'Endeavor Air',
                     'AA':'American Airlines', 
