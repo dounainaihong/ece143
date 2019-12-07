@@ -110,7 +110,7 @@ def plot_airline_history():
     :return:
     """
     df_total_delay = prepare_airline_delay_data()
-    carrier_list = sorted(list(set(df_total_delay['OP_CARRIER'].to_list())))
+    carrier_list = constants.AIRLINE_CODES_STILL_WORKING
     plot_delay.plot_airline_history_delay(df_total_delay, carrier_list)
     plot_count.plot_airline_history_count(df_total_delay, carrier_list)
     plot_delay.plot_delay_top10_airlines(df_total_delay, carrier_list)
@@ -164,7 +164,7 @@ def plot_cancellation_history():
     """
     # plot the cancellation history trend
     cancel_airline = count_cancellation_by_airline()
-    carrier_list = list(constants.AIRLINE_FULLNAME_MAP.keys())
+    carrier_list = constants.AIRLINE_CODES_STILL_WORKING
     plot_cancellation.plot_cancellation_history(cancel_airline, carrier_list)
 
     # plot the cancellation reasons

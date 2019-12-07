@@ -38,11 +38,11 @@ AIRLINE_CODES_STILL_WORKING = [
 TYPES = {'small_airport':5,'medium_airport':10,'large_airport':15,'seaplane_base':1,'closed':1}
 
 # colors list
-COLORS = ['steelblue','black','blueviolet','purple',
+COLORS = ['blue','red','blueviolet','purple',
           'crimson','cyan','darkgreen','gold',
           'firebrick','greenyellow','lime','hotpink',
           'magenta','olive','plum','orange',
-          'blue','red','navy','gray',
+          'black','navy','gray','steelblue',
           'khaki','orchid','tan']
 
 # The followings specify the constants related to our data preparation time type
