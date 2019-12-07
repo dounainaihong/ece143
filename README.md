@@ -40,15 +40,22 @@ This project aims at exploring the US flights data over the past 10 years
  stores all of the data expect for the flights data, which we need to download to here.
  
  /model: 
+ stores all of the machine learning models. 
+ 
+ /model/delay:
+ stores delay model when each training epoch finishes.
+ 
+ /model/cancel:
+ stores cancellation model when each training epoch finishes.
  
  /plot:
  stores all of the functions we will use to plot graphs directly
      
  / prediction
+ stores all of the functions used for machine learning model construct, training and test.
  
  / processing:
  stores all of the modules we will use to process our data and do the analysis.
- 
  
  main.py: provides the up-level interfaces for users to the analysis and visualizations.
  
